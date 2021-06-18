@@ -1,0 +1,22 @@
+# ((to update env run:)) conda env update --name gadget --file environment.yml
+name: gadget
+channels:
+  - conda-forge
+dependencies:
+  - pandas
+  - mypy
+  - dbfread
+  - scikit-learn
+  - altair
+  - pydantic
+  - tqdm
+  - seaborn
+  - altair_saver
+  - sqlalchemy
+  - ipyelk
+  - pygraphviz
+  - pydot
+  - nbval
+  - pip
+  - astor
+  - astunparse
