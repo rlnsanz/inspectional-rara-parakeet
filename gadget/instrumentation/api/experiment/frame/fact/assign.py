@@ -5,6 +5,16 @@ from gadget.instrumentation.structs import ssa_table
 
 
 def assign(e, target, text, line_no, mod=None):
+    """
+    Assignments may be basic:
+        x = 10
+    Or they may be augmented:
+        x += 10
+        x -= 10
+        ...
+    Mod parameterized the assign method so we know
+    whether the statement is a basic assignment or an augmented assignment.
+    """
     if mod is None:
         print(f"{stringify.vertical_prefix_string()}ASSIGN {target}: "
               f"assigning {text}, into {target}\t\t{line_no}:{state.lsn}")

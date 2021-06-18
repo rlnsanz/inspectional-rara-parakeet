@@ -11,6 +11,9 @@ class Call:
     # TODO: method chaining design
     # TODO: you can call a call. Modify class Call
     def __init__(self, pe, text, line_no):
+        """
+        pe: parenthetical expression. e.g. `foo()`
+        """
         self.pe = pe
         self.text = text
         self.line_no = line_no

@@ -7,6 +7,9 @@ import inspect
 def importing(o, module, name, line_no):
     #TODO: add to dataflow
     # ssa_table.insert(name, state.lsn, o)
+    """
+    o: the object corresponding to the imported module
+    """
     print(f"IMPORT {module}: "
           f"successfully imported {module} "
           f"from {inspect.getfile(o)}\t\t{line_no}:{state.lsn}")

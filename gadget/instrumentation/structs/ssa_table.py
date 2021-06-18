@@ -6,7 +6,7 @@ class SSA:
     _seq = []
 
 
-class Srlz:
+class SerializationCapsule:
     """
     Serialization Capsule
     """
@@ -48,7 +48,7 @@ def insert(name, idx, v):
     _id = id(v)
     if 'numpy' in str(type(v)):
         v = v.tolist()
-    capsule = Srlz(v)
+    capsule = SerializationCapsule(v)
     capsule.dump()
     group = (idx, capsule)
     if name in SSA._tab:
