@@ -28,7 +28,7 @@ class DataflowVisitor(ast.NodeVisitor):
 
 
 def insert(name, text):
-    assert ssa_table.has_in(name) or keyword.iskeyword(name) or name in dir(builtins), name
+    # assert ssa_table.has_in(name) or keyword.iskeyword(name) or name in dir(builtins), name
     visitor = DataflowVisitor()
     visitor.visit(ast.parse(text))
 
