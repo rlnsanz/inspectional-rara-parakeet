@@ -14,7 +14,7 @@ class tracking:
 
         frame = inspect.stack()[1]
         module = inspect.getmodule(frame[0])
-        self.main_filename = module.__file__
+        self.main_filename = module.__file__ if hasattr(module, '__file__') else '...'
 
     def __enter__(self):
         print(f"STARTING experiment {self.experiment_name} "
@@ -23,4 +23,4 @@ class tracking:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         print(f'ENDING {self.experiment_name}: last lsn {state.lsn}')
-        print_ssa()
+        # print_ssa()
