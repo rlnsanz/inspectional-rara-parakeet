@@ -28,6 +28,9 @@ class TestCallTransformer(unittest.TestCase):
         exec(template, {}, {})
 
     def test_root_call(self):
+        """
+
+        """
         # TODO: This test is driving bug fixes
         src = 'np.random.seed(randint(0,100))'
         tree = RootCallTransformer().visit(ast.parse(src))

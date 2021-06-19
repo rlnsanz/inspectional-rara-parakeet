@@ -31,8 +31,13 @@ def get_index():
     return job / PurePath(timestamp).with_suffix('.json') if job is not None else None
 
 
+def get_latest():
+    return job / PurePath('latest').with_suffix('.json') if job is not None else None
+
+
 def get_pkl_ref() -> PurePath:
     while True:
         candidate = data / PurePath(uuid.uuid4().hex).with_suffix('.pkl')
         if not candidate.exists():
             return candidate
+
