@@ -1,7 +1,7 @@
 import ast
 import astor
 
-from gadget.transformer import make_node, make_module_with
+from gadget.transformer.utils import make_node, make_module_with
 from gadget.transformer import RootCallTransformer, ImportingTransformer, AssignTransformer, FuncTransformer
 
 # print(ast.dump(make_node("""
@@ -28,7 +28,6 @@ tree = callt.visit(tree)
 tree = asgnt.visit(tree)
 tree = impt.visit(tree)
 tree = funct.visit(tree)
-mod = make_module_with('housing_price')
-mod.body[-1].body = [tree, ]
+mod = make_module_with('housing_price', tree)
 print(astor.to_source(mod))
 print(stir_fry)

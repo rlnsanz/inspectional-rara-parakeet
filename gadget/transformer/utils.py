@@ -25,7 +25,8 @@ def make_func_with(name, args, line_no, ret_text=None):
     return mod.body.pop()
 
 
-def make_module_with(text):
-    s = f"""import gadget as ln\nwith ln.tracking('{text}'):\n\tpass"""
+def make_module_with(experiment_name, tree):
+    s = f"""import gadget as ln\nwith ln.tracking('{experiment_name}'):\n\tpass"""
     mod = ast.parse(s)
+    mod.body[-1].body = [tree, ]
     return mod

@@ -1,4 +1,4 @@
-from gadget.transformer.call import RootCallTransformer
+from gadget.transformer import transform_string
 from gadget.transformer.assign import AssignTransformer
 
 import unittest
@@ -29,24 +29,26 @@ class TestCallTransformer(unittest.TestCase):
 
     def test_root_call(self):
         """
-
+        original:
+            np.random.seed(randint(0,100))
+        bytecode:
+            _arg0 = randint(0, 100)
+            np.random.seed(_arg0)
         """
         # TODO: This test is driving bug fixes
-        src = 'np.random.seed(randint(0,100))'
-        tree = RootCallTransformer().visit(ast.parse(src))
-        node = tree.body[-1]
-
-        template = '\n'.join([
+        src = '\n'.join([
             "from random import randint",
             "import numpy as np",
-            "import gadget as ln",
-            f"with ln.tracking('{self.__class__.__name__ + '.' + inspect.currentframe().f_code.co_name}'):",
-            f"\t{astor.to_source(tree)}"
+            '_arg0 = randint(0,100)',
+            'np.random.seed(_arg0)'
         ])
 
-        self.assertIsInstance(node.value, ast.Expr)
+        sink = transform_string(src, self.__class__.__name__ + '.' + inspect.currentframe().f_code.co_name)
+        sink = astor.to_source(sink)
 
-        print(template)
-        exec(template, {}, {})
+        print(sink)
+        exec(sink, {}, {})
+
+
 
 
