@@ -22,9 +22,10 @@ class FuncTransformer(ast.NodeTransformer):
         weeth = make_func_with(name, args, node.lineno, ret_text.strip())
         weeth.body = node.body
         node.body = [weeth, ]
+        return node
 
-        next_node = make_node(f"ln.assign({name}, text='''{name}''', line_no={node.lineno}, "
-                             f"target='''{name}''')")
-        assert isinstance(next_node, ast.Expr), type(next_node)
-
-        return [node, next_node]
+        # next_node = make_node(f"ln.assign({name}, text='''{name}''', line_no={node.lineno}, "
+        #                      f"target='''{name}''')")
+        # assert isinstance(next_node, ast.Expr), type(next_node)
+        #
+        # return [node, next_node]
