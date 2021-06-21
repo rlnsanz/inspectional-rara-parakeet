@@ -1,5 +1,7 @@
 from gadget.instrumentation.structs import state
+from gadget.instrumentation.structs.ssa_table import SSA
 from gadget.instrumentation.utils.stringify import print_ssa
+from gadget.shelf import mk_job
 
 import inspect
 
@@ -11,6 +13,8 @@ class tracking:
     """
     def __init__(self, experiment_name: str):
         self.experiment_name = experiment_name
+        mk_job(experiment_name)
+
 
         frame = inspect.stack()[1]
         module = inspect.getmodule(frame[0])
@@ -23,4 +27,5 @@ class tracking:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         print(f'ENDING {self.experiment_name}: last lsn {state.lsn}')
+        SSA.logger.close()
         # print_ssa()

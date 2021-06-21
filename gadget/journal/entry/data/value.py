@@ -16,7 +16,7 @@ class Value(Data):
         json.dumps(d)
 
     def make_val(self):
-        pass
+        return self.value
 
     @staticmethod
     def is_superclass(json_dict: dict):
@@ -35,3 +35,9 @@ class Value(Data):
     def fulfill(self):
         super().fulfill()
         return json.dumps(self.jsonify())
+
+    def __str__(self):
+        return self.value
+
+    def __repr__(self):
+        return self.value

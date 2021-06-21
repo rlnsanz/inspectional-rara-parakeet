@@ -1,6 +1,6 @@
 from ..constants import *
 from .abstract import Data
-from ....logger.copy import deepcopy
+from copy import deepcopy
 from .... import shelf
 
 import cloudpickle
@@ -17,8 +17,11 @@ class Reference(Data):
         self.val_saved = v is None and r is not None
 
     def make_val(self):
+        if self.value is not None:
+            return self.value
         with open(self.ref, 'rb') as f:
             self.value = cloudpickle.load(f)
+        return self.value
 
     def would_mat(self):
         """
@@ -69,4 +72,10 @@ class Reference(Data):
         super().fulfill()
         self.set_ref_and_dump(shelf.get_pkl_ref())
         return json.dumps(self.jsonify())
+
+    def __str__(self):
+        return self.ref if self.ref is not None else '[path pending]'
+
+    def __repr__(self):
+        return self.ref if self.ref is not None else '[path pending]'
 

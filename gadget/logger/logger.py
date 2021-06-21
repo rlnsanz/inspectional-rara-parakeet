@@ -9,7 +9,7 @@ from typing import List
 
 class Logger:
     def __init__(self, path=None, buf_size=None):
-        self.path = PurePath(path) if path is not None else None
+        self.path = PurePath(path) if path is not None else shelf.get_index()
         self.buffer = Buffer() if buf_size is None else Buffer(buf_size)
         self.flush_count = 0
 

@@ -15,7 +15,7 @@ def importing(o, module, name, line_no):
           f"from {inspect.getfile(o)}\t\t{line_no}:{state.lsn}")
     state.lsn2line_no[state.lsn] = line_no
     state.lsn += 1
-    assign(o, name, name, line_no)
+    # assign(o, name, name, line_no)
 
 
 
