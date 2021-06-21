@@ -23,4 +23,4 @@ class tracking:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         print(f'ENDING {self.experiment_name}: last lsn {state.lsn}')
-        # print_ssa()
+        print_ssa()

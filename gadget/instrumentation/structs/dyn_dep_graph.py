@@ -1,21 +1,27 @@
 from gadget.instrumentation.structs import state
-from gadget.instrumentation.structs import ssa_table
 
 import ast
-import keyword
-import builtins
 
 tab = {}
 lsn2s = {}
 seq = []
 
+"""
+TODO: Will have to work with AST store and Load
+
+"""
 
 
 class DataflowVisitor(ast.NodeVisitor):
-    def __init__(self):
-        self.edges = set([])
+    def __init__(self, carry=None):
+        if carry is None:
+            self.reads = set([])
+        else:
+            self.reads = carry
+        self.writes = set([])
 
     def visit_Name(self, node):
+        self.generic_visit(node)
 
         dlt = get_latest(node.id)
         if dlt is None:
@@ -23,26 +29,28 @@ class DataflowVisitor(ast.NodeVisitor):
         else:
             lsn, s = dlt
             dlt = {lsn,}
-        self.edges = self.edges.union(dlt)
-        self.generic_visit(node)
+        self.reads = self.reads.union(dlt)
+
+        if isinstance(node.ctx, ast.Store):
+            print('********************************************************************')
+            s = {state.lsn, }.union(self.reads)
+            if node.id in tab:
+                tab[node.id].append((state.lsn, s))
+            else:
+                tab[node.id] = [(state.lsn, s), ]
+            seq.append((node.id, state.lsn, s))
+            lsn2s[state.lsn] = s
+            state.lsn += 1
+            self.writes.add(node.id)
 
 
-def insert(name, text):
+def insert(text):
     # assert ssa_table.has_in(name) or keyword.iskeyword(name) or name in dir(builtins), name
     visitor = DataflowVisitor()
     visitor.visit(ast.parse(text))
 
-    s = {state.lsn,}.union(visitor.edges)
-    if name in tab:
-        tab[name].append((state.lsn, s))
-    else:
-        tab[name] = [(state.lsn, s),]
 
-    seq.append((name, state.lsn, s))
-    lsn2s[state.lsn] = s
-
-
-def get(name, lsn=None):
+def get(name=None, lsn=None):
     pseq = tab.get(name, None)
     if lsn is None:
         return pseq

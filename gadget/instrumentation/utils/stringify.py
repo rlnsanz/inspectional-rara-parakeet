@@ -17,10 +17,10 @@ def print_ssa():
     for name, lsn, deps in dyn_dep_graph.seq:
         print((name, lsn, deps))
 
-    # debug = {
-    #     'name': 'p'
-    # }
-    # print(f"\ntransitive closure {debug['name']}:")
-    # tclosure = dyn_dep_graph.trans_closure(debug['name'])
-    # print("Sequence of LSNs: ", tclosure)
-    # print("Sequence of LINE_NOs: ", sorted(list(set([state.lsn2line_no[each] for each in tclosure]))))
+    debug = {
+        'name': 'p'
+    }
+    print(f"\ntransitive closure {debug['name']}:")
+    tclosure = dyn_dep_graph.trans_closure(debug['name'])
+    print("Sequence of LSNs: ", tclosure)
+    print("Sequence of LINE_NOs: ", sorted(list(set([state.lsn2line_no[each] for each in tclosure]))))

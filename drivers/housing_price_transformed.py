@@ -14,14 +14,15 @@ with ln.tracking('housing_price'):
 
     # Set up some config
     # ln.call(pe=, text=, line_no=, args=)
+    # ln.assign(e=, target=,text=,line_no=, mod)
     ln.call(alt.data_transformers.enable('json'), text="alt.data_transformers.enable('json')", line_no=6)
     ln.call(alt.renderers.enable('mimetype'), text="alt.renderers.enable('mimetype')", line_no=7)
 
     dbf = ln.call(dbfread.DBF("../../tracer/property_example/L3_SHP_M114_Greenfield/M114Assess_CY20_FY20.dbf"),
                   text='dbfread.DBF("./L3_SHP_M114_Greenfield/M114Assess_CY20_FY20.dbf")', line_no=8
-                  ).assign(target='dbf')
-    dbf = ln.call(iter(dbf), text='iter(dbf)', line_no=9).assign(target='dbf')
-    assets = ln.call(pd.DataFrame(dbf), text='pd.DataFrame(dbf)', line_no=10).assign(target='assets')
+                  )
+    dbf = ln.assign(ln.call(iter(dbf), text='iter(dbf)', line_no=9), text='iter(dbf)', target='dbf', line_no=9)
+    assets = ln.assign(ln.call(pd.DataFrame(dbf), text='pd.DataFrame(dbf)', line_no=10), text='pd.DataFrame(dbf)', target='assets', line_no=10)
 
     ln.call(
         sns.relplot(
@@ -52,13 +53,14 @@ with ln.tracking('housing_price'):
             return col > ln.call(get_threshold(), text='get_threshold()', line_no=14)
     ln.assign(is_new, 'is_new', 'is_new', line_no=22)
 
-    assets['is_new'] = ln.call(is_new(assets['YEAR_BUILT']),
-                               text="is_new(assets['YEAR_BUILT'])", line_no=15).assign(target="assets['is_new']")
+    assets['is_new'] = ln.assign(ln.call(is_new(assets['YEAR_BUILT']),
+                               text="is_new(assets['YEAR_BUILT'])", line_no=15), target='assets', text="is_new(assets['YEAR_BUILT'])",
+                                 line_no=15)
 
-    clf = ln.call(RandomForestClassifier(random_state=0),
+    clf = ln.assign(ln.call(RandomForestClassifier(random_state=0),
                   text='RandomForestClassifier(random_state=0)',
                   line_no=16
-                  ).assign(target='clf')
+                  ), target='clf', text='RandomForestClassifier(random_state=0)', line_no=16)
     # assign(e, target, text, line_no, mod=None):
     y = ln.assign(assets['is_new'], text="assets['is_new']", target='y', line_no=17)
     x = ln.assign(assets[['BLDG_VAL', 'LOT_SIZE', 'NUM_ROOMS']],
@@ -66,9 +68,9 @@ with ln.tracking('housing_price'):
 
     ln.call(clf.fit(x, y), text="clf.fit(x, y)", line_no=19)
 
-    p = ln.call(clf.predict([[100 * 1000, 10, 4]]),
+    p = ln.assign(ln.call(clf.predict([[100 * 1000, 10, 4]]),
                 text="clf.predict([[100 * 1000, 10, 4]])",
                 line_no=20,
-                ).assign(target='p')
+                ), target='p', text='clf.predict([[100 * 1000, 10, 4]])', line_no=20)
 
 
