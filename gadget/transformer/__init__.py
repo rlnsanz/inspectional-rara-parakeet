@@ -7,11 +7,15 @@ from .importing import ImportingTransformer
 import ast
 from .utils import make_module_with
 
+import astor
+
 
 def transform_string(s: str, experiment_name: str):
     tree = ast.parse(s)
     for transformer in [RootCallTransformer(), AssignTransformer(), ImportingTransformer(), FuncTransformer()]:
         tree = transformer.visit(tree)
+        print(astor.to_source(tree))
+
     return make_module_with(experiment_name, tree)
 
 
