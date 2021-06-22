@@ -3,7 +3,8 @@ name: gadget
 channels:
   - conda-forge
 dependencies:
-  - pandas
+  - numpy==1.19.5
+  - pandas==1.1.5
   - mypy
   - dbfread
   - scikit-learn

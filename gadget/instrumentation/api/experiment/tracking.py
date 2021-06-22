@@ -27,5 +27,8 @@ class tracking:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         print(f'ENDING {self.experiment_name}: last lsn {state.lsn}')
+
         SSA.logger.close()
-        # print_ssa()
+        # TODO: Serialize the SSA and DDG for debugging.
+
+        print_ssa()
