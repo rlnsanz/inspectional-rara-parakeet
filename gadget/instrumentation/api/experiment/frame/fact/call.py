@@ -62,6 +62,9 @@ def get_name(full_text):
     return caller.split('.')[0]
 
 def call(pe, text, line_no):
+    """
+    pe: parenthetical expression. e.g. `foo()`
+    """
     #TODO: make field sensitives
     t = text.replace('\n', '')
     t = re.sub(r"""\s(\s)+""", "", t)

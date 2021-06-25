@@ -1,9 +1,11 @@
 import ast
 
+
 def make_node(text):
     mod = ast.parse(text)
     assert len(mod.body) == 1
     return mod.body.pop()
+
 
 def make_args(args):
     """
@@ -30,3 +32,4 @@ def make_module_with(experiment_name, tree):
     mod = ast.parse(s)
     mod.body[-1].body = [tree, ]
     return mod
+
