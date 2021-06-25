@@ -16,13 +16,17 @@ def assign(e, target, text, line_no, mod=None):
     whether the statement is a basic assignment or an augmented assignment.
     """
     if mod is None:
-        print(f"{stringify.vertical_prefix_string()}ASSIGN {target}: "
-              f"assigning {text}, into {target}\t\t{line_no}:{state.lsn}")
+        print(
+            f"{stringify.vertical_prefix_string()}ASSIGN {target}: "
+            f"assigning {text}, into {target}\t\t{line_no}:{state.lsn}"
+        )
         ssa_table.insert(target, state.lsn, e)
         dyn_dep_graph.insert(target, text)
-    elif mod == '+=':
-        print(f"{stringify.vertical_prefix_string()}ASSIGN {target}: "
-              f"incrementing {target} by {text}\t\t{line_no}:{state.lsn}")
+    elif mod == "+=":
+        print(
+            f"{stringify.vertical_prefix_string()}ASSIGN {target}: "
+            f"incrementing {target} by {text}\t\t{line_no}:{state.lsn}"
+        )
         ssa_table.insert(target, state.lsn, e + ssa_table.get(target)[1])
         dyn_dep_graph.insert(target, f"{target} + {text}")
     else:

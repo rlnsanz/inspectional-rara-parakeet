@@ -24,5 +24,3 @@ class EOF(Metadata):
     @classmethod
     def cons(cls, json_dict: dict):
         return cls()
-
-

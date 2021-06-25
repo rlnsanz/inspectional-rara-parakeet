@@ -8,10 +8,12 @@ class FuncTransformer(ast.NodeTransformer):
     def visit_FunctionDef(self, node):
         name = node.name
         arguments = node.args
-        if (arguments.posonlyargs or
-            arguments.kwonlyargs or
-            arguments.kw_defaults or
-            arguments.defaults):
+        if (
+            arguments.posonlyargs
+            or arguments.kwonlyargs
+            or arguments.kw_defaults
+            or arguments.defaults
+        ):
             raise NotImplementedError(arguments)
         args = make_args([a.arg for a in arguments.args])
         ret_text = None
@@ -21,7 +23,9 @@ class FuncTransformer(ast.NodeTransformer):
                 break
         weeth = make_func_with(name, args, node.lineno, ret_text.strip())
         weeth.body = node.body
-        node.body = [weeth, ]
+        node.body = [
+            weeth,
+        ]
         return node
 
         # next_node = make_node(f"ln.assign({name}, text='''{name}''', line_no={node.lineno}, "

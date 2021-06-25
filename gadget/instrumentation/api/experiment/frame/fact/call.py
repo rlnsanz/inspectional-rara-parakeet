@@ -56,23 +56,27 @@ def get_caller(full_text):
     except ReturnError as e:
         return e.args[0]
 
+
 def get_name(full_text):
     # TODO: make field sensitive
     caller = get_caller(full_text)
-    return caller.split('.')[0]
+    return caller.split(".")[0]
+
 
 def call(pe, text, line_no):
     """
     pe: parenthetical expression. e.g. `foo()`
     """
-    #TODO: make field sensitives
-    t = text.replace('\n', '')
+    # TODO: make field sensitives
+    t = text.replace("\n", "")
     t = re.sub(r"""\s(\s)+""", "", t)
     name = get_name(t)
     dyn_dep_graph.insert(name, t)
     c = Call(pe, text, line_no)
-    print(f"{stringify.vertical_prefix_string()}CALL {t}: "
-          f"evaluated\t\t{line_no}:{state.lsn}")
+    print(
+        f"{stringify.vertical_prefix_string()}CALL {t}: "
+        f"evaluated\t\t{line_no}:{state.lsn}"
+    )
     state.lsn2line_no[state.lsn] = line_no
     state.lsn += 1
     return c

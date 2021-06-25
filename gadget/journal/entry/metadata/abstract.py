@@ -20,5 +20,4 @@ class Metadata(Entry, Future, ABC):
         ...
 
     def fulfill(self):
-        return json.dumps(self.jsonify()) 
-
+        return json.dumps(self.jsonify())

@@ -13,4 +13,6 @@ class RootCallTransformer(ast.NodeTransformer):
         if not isinstance(node.value, ast.Call):
             return node
         src = astor.to_source(node.value)
-        return make_node(f"ln.call({src}, text='''{src.strip()}''', line_no={node.lineno})")
+        return make_node(
+            f"ln.call({src}, text='''{src.strip()}''', line_no={node.lineno})"
+        )

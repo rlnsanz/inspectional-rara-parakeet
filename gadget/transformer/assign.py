@@ -13,10 +13,14 @@ class AssignTransformer(ast.NodeTransformer):
             raise NotImplementedError("Assigning to multiple targets")
         src = astor.to_source(node.value)
         if isinstance(node.value, ast.Call):
-            val = make_node(f"ln.call({src}, text='''{src.strip()}''', line_no={node.lineno})"
-                             f".assign(target='''{astor.to_source(node.targets[0]).strip()}''')")
+            val = make_node(
+                f"ln.call({src}, text='''{src.strip()}''', line_no={node.lineno})"
+                f".assign(target='''{astor.to_source(node.targets[0]).strip()}''')"
+            )
         else:
-            val = make_node(f"ln.assign({src}, text='''{src.strip()}''', line_no={node.lineno}, "
-                             f"target='''{astor.to_source(node.targets[0]).strip()}''')")
+            val = make_node(
+                f"ln.assign({src}, text='''{src.strip()}''', line_no={node.lineno}, "
+                f"target='''{astor.to_source(node.targets[0]).strip()}''')"
+            )
         node.value = val.value
         return node

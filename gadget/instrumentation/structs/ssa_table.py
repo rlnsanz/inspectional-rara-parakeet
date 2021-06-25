@@ -1,5 +1,6 @@
 from gadget.logger import Logger
 from gadget.journal.entry import DataRef, DataVal
+
 # import json
 
 
@@ -15,13 +16,19 @@ def insert(name, idx, v):
         SSA.logger = Logger()
     _id = id(v)
 
-    capsule = DataVal(name, idx, v) if type(v) in [type(None), int, float, bool, str] else DataRef(name, idx, v)
+    capsule = (
+        DataVal(name, idx, v)
+        if type(v) in [type(None), int, float, bool, str]
+        else DataRef(name, idx, v)
+    )
 
     group = (idx, capsule)
     if name in SSA._tab:
         SSA._tab[name].append(group)
     else:
-        SSA._tab[name] = [group, ]
+        SSA._tab[name] = [
+            group,
+        ]
     SSA._seq.append((name, idx, capsule))
     SSA.logger.append(capsule)
 

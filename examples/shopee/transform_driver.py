@@ -4,10 +4,10 @@ import astor
 import unittest
 
 
-tree_transformed = transform('embeddingsA2.py', 'embeddiangsA2', exept=None)
+tree_transformed = transform("embeddingsA2.py", "embeddiangsA2", exept=None)
+
 
 class ShoppeeTester(unittest.TestCase):
-
     def test_transform(self):
         print(astor.to_source(tree_transformed))
 

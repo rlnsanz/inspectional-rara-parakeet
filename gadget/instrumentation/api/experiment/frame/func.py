@@ -12,16 +12,20 @@ class func:
         self.line_no = line_no
 
     def __enter__(self):
-        print(f"{stringify.vertical_prefix_string()}FUNC_IN: "
-              f"stepping into function {self.name} "
-              f"with {len(self.args)} arguments.\t\t{self.line_no}:{state.lsn}")
+        print(
+            f"{stringify.vertical_prefix_string()}FUNC_IN: "
+            f"stepping into function {self.name} "
+            f"with {len(self.args)} arguments.\t\t{self.line_no}:{state.lsn}"
+        )
         state.lsn2line_no[state.lsn] = self.line_no
         state.depth += 1
         state.lsn += 1
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         state.depth -= 1
-        print(f"{stringify.vertical_prefix_string()}FUNC_OUT: "
-              f"function {self.name} "
-              f"returning {'nothing' if self.ret_text is None else self.ret_text}")
+        print(
+            f"{stringify.vertical_prefix_string()}FUNC_OUT: "
+            f"function {self.name} "
+            f"returning {'nothing' if self.ret_text is None else self.ret_text}"
+        )
         state.lsn += 1

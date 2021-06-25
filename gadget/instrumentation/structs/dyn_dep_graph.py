@@ -10,7 +10,6 @@ lsn2s = {}
 seq = []
 
 
-
 class DataflowVisitor(ast.NodeVisitor):
     def __init__(self):
         self.edges = set([])
@@ -22,7 +21,9 @@ class DataflowVisitor(ast.NodeVisitor):
             dlt = set([])
         else:
             lsn, s = dlt
-            dlt = {lsn,}
+            dlt = {
+                lsn,
+            }
         self.edges = self.edges.union(dlt)
         self.generic_visit(node)
 
@@ -36,7 +37,9 @@ def insert(name, text):
     if name in tab:
         tab[name].append((state.lsn, s))
     else:
-        tab[name] = [(state.lsn, s),]
+        tab[name] = [
+            (state.lsn, s),
+        ]
 
     seq.append((name, state.lsn, s))
     lsn2s[state.lsn] = s
@@ -59,15 +62,19 @@ def get_latest(name):
         return pseq[-1]
     return None
 
+
 def _helper_closure():
     ...
+
 
 def trans_closure(name, sort=True):
     latest: set = get_latest(name)
     if latest is not None:
         # Fixpoint computation
         lsn, idb = latest
-        accumulated = {lsn, }
+        accumulated = {
+            lsn,
+        }
         discovered = set(idb)
         while discovered:
             lsn = discovered.pop()

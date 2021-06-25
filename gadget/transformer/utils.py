@@ -11,10 +11,10 @@ def make_args(args):
     """
     ['col'] -> [(col, 'col')]
     """
-    s = '['
+    s = "["
     for arg in args:
-        s += f'''({arg}, "{arg}"),'''
-    s += ']'
+        s += f"""({arg}, "{arg}"),"""
+    s += "]"
     return s
 
 
@@ -30,6 +30,7 @@ def make_func_with(name, args, line_no, ret_text=None):
 def make_module_with(experiment_name, tree):
     s = f"""import gadget as ln\nwith ln.tracking('{experiment_name}'):\n\tpass"""
     mod = ast.parse(s)
-    mod.body[-1].body = [tree, ]
+    mod.body[-1].body = [
+        tree,
+    ]
     return mod
-
